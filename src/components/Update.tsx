@@ -5,22 +5,21 @@ import { FC } from "react";
 interface RouteParams {
   userId: number;
 }
-const Blogs: FC = () => {
+const Update: FC = () => {
   const { userId } = useParams<RouteParams>();
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const blog = { userId, title, body };
-    console.log(blog);
-    fetch("https://jsonplaceholder.typicode.com/posts", {
-      method: "POST",
+    fetch(`https://jsonplaceholder.typicode.com/posts/${userId}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(blog),
     }).then(() => {
+      console.log(blog);
       console.log("blog posted");
     });
   };
@@ -59,4 +58,4 @@ const Blogs: FC = () => {
   );
 };
 
-export default Blogs;
+export default Update;
