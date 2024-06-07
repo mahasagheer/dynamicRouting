@@ -1,9 +1,9 @@
 // import { useState, FormEvent, ChangeEvent } from "react";
 import { useParams } from "react-router-dom";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import UseFetch from "./UseFetch";
 import { useFormik } from "formik";
-import { SignUpSchema } from "../schemas";
+import * as Yup from "yup";
 
 interface RouteParams {
   userId: number;
@@ -15,28 +15,43 @@ const Update: FC = () => {
   );
   const filter = data.find((data) => data.id == userId);
   console.log(filter);
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        title: "",
-        body: "",
-        userId: "",
-        id: userId,
-      },
-      validationSchema: SignUpSchema,
-      onSubmit: (values) => {
-        fetch(`https://jsonplaceholder.typicode.com/posts/${userId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        }).then(() => {
-          console.log(values);
-          console.log("blog posted");
-        });
-      },
-    });
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      title: "",
+      body: "",
+      userId: "",
+      id: userId,
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().min(10).max(20).required("Enter title..."),
+      body: Yup.string().min(50).max(250).required("Type Here......"),
+    }),
+    onSubmit: (values) => {
+      fetch(`https://jsonplaceholder.typicode.com/posts/${userId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      }).then(() => {
+        console.log(values);
+        console.log("blog posted");
+      });
+    },
+  });
+  useEffect(() => {
+    for (const key in filter) {
+      setFieldValue(key, filter[key]);
+    }
+  }, [filter]);
 
   return (
     <>
