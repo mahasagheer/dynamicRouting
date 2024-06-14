@@ -6,7 +6,6 @@ const Users: FC = () => {
   const { data, pending } = UseFetch(
     "https://jsonplaceholder.typicode.com/users"
   );
-
   return (
     <>
       <h1 className="text-center text-3xl my-10">Users</h1>

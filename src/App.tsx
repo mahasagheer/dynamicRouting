@@ -1,82 +1,71 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { Routes, Route } from "react-router-dom";
 import Users from "./components/Users";
 import UsersPost from "./components/UsersPost";
 import Comments from "./components/Comments";
 import Blogs from "./components/Blogs";
 import Update from "./components/Update";
-import Navbar from "./components/Navbar";
-import { useState } from "react";
 import PrivateRoutes from "./components/PrivateRoutes";
 import Admin from "./components/Admin";
+import Login from "./components/Login";
+import Navbar from "./components/Navbar";
 
 function App() {
-  const [user, setUser] = useState(false);
-  const [admin, setAdmin] = useState(false);
-
-  const login = () => {
-    setUser(true);
-  };
-  const logout = () => {
-    setUser(false);
-  };
-  const adminIn = () => {
-    setAdmin(true);
-  };
-  const adminOut = () => {
-    setAdmin(false);
-  };
   return (
     <>
-      <BrowserRouter>
-        <Navbar
-          admin={admin}
-          user={user}
-          login={login}
-          logout={logout}
-          adminIn={adminIn}
-          adminOut={adminOut}
-        />
-        <Routes>
-          <Route path="/" element={<Users />} />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route element={<PrivateRoutes />}>
+          <Route
+            path="/home"
+            element={
+              <>
+                <Navbar />
+                <Users />
+              </>
+            }
+          />
           <Route
             path="/users/:userId"
             element={
-              <PrivateRoutes user={user}>
+              <>
+                <Navbar />
                 <UsersPost />
-              </PrivateRoutes>
+              </>
             }
-          ></Route>
+          />
           <Route
             path="users/:userId/:postId"
             element={
-              <PrivateRoutes user={user}>
-                <Comments />{" "}
-              </PrivateRoutes>
+              <>
+                <Navbar />
+                <Comments />
+              </>
             }
-          ></Route>
+          />
           <Route
             path="/update/:userId"
             element={
-              <PrivateRoutes user={user}>
-                <Update />{" "}
-              </PrivateRoutes>
+              <>
+                <Navbar />
+                <Update />
+              </>
             }
-          ></Route>
-
-          <Route
-            path="/blogs/:userId"
-            element={
-              <PrivateRoutes admin={admin}>
-                <Blogs />
-              </PrivateRoutes>
-            }
-          ></Route>
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </BrowserRouter>
+          />
+        </Route>
+        <Route path="/blogs/:userId" element={<Blogs />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
     </>
   );
 }
 
 export default App;
+
+/* <Route
+            path="/"
+            element={
+              <AuthContext.Provider value={{ user, setUser, setAdmin }}>
+                <Login />
+              </AuthContext.Provider>
+            }
+          /> */

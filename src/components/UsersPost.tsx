@@ -29,7 +29,7 @@ const UsersPost: FC = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        navigate("/");
+        navigate("/home");
       })
       .catch((err) => {
         console.log(err.message);

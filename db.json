@@ -1,0 +1,14 @@
+{
+  "roleBasedAuth": [
+    {
+      "role": "admin",
+      "email": "admin@gmail.com",
+      "password": "admin"
+    },
+    {
+      "role": "user",
+      "email": "user@gmail.com",
+      "password": "user"
+    }
+  ]
+}

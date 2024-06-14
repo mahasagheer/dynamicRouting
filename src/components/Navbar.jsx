@@ -1,6 +1,9 @@
 import React from "react";
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
+const Navbar = () => {
+  const { user, admin, logout, adminOut } = useContext(AuthContext);
 
-const Navbar = ({ user, login, logout, adminIn, adminOut, admin }) => {
   return (
     <>
       <nav className="bg-[#A0DEFF] flex justify-between px-10 items-center">
@@ -14,10 +17,7 @@ const Navbar = ({ user, login, logout, adminIn, adminOut, admin }) => {
               Log Out
             </button>
           ) : (
-            <button
-              className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1"
-              onClick={login}
-            >
+            <button className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1">
               Log In
             </button>
           )}
@@ -29,10 +29,7 @@ const Navbar = ({ user, login, logout, adminIn, adminOut, admin }) => {
               Admin Out
             </button>
           ) : (
-            <button
-              className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1"
-              onClick={adminIn}
-            >
+            <button className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1">
               Admin In
             </button>
           )}
