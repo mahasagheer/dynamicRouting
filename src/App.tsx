@@ -54,7 +54,7 @@ function App() {
         <Route
           path="/blogs/:userId"
           element={
-            <PrivateRoutes roles={["admin"]}>
+            <PrivateRoutes roles={"admin"}>
               <Blogs />
             </PrivateRoutes>
           }
