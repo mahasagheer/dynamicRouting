@@ -20,14 +20,15 @@ const Login = () => {
     );
     if (find.role == "user") {
       setUser(true);
-      console.log("user logged in ");
-
+      alert("user logged in ");
       localStorage.setItem("role", JSON.stringify(userData));
       navigate("/home");
-    }
-    if (find.role == "admin" && count == 2) {
+    } else if (find.role == "admin" && count == 2) {
       setAdmin(true);
-      console.log("admin logged in ");
+      alert("admin logged in ");
+      navigate("/home");
+      localStorage.setItem("role", JSON.stringify(userData));
+    } else {
       navigate("/");
     }
   };

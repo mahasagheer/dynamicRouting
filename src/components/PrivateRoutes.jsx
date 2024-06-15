@@ -2,13 +2,15 @@ import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 
-const PrivateRoutes = ({ children }) => {
+const PrivateRoutes = ({ children, roles }) => {
   const { user, admin } = useContext(AuthContext);
-  {
-    user ? children : <Navigate to="/" />;
+  if (user == true && roles.includes("user")) {
+    return children;
   }
-  {
-    admin ? children : <Navigate to="/admin" />;
+  if (admin == true && roles.includes("admin")) {
+    return children;
+  } else {
+    <Navigate to="/admin" />;
   }
 };
 

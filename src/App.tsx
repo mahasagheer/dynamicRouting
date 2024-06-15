@@ -14,45 +14,51 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route element={<PrivateRoutes />}>
-          <Route
-            path="/home"
-            element={
-              <>
-                <Navbar />
-                <Users />
-              </>
-            }
-          />
-          <Route
-            path="/users/:userId"
-            element={
-              <>
-                <Navbar />
-                <UsersPost />
-              </>
-            }
-          />
-          <Route
-            path="users/:userId/:postId"
-            element={
-              <>
-                <Navbar />
-                <Comments />
-              </>
-            }
-          />
-          <Route
-            path="/update/:userId"
-            element={
-              <>
-                <Navbar />
-                <Update />
-              </>
-            }
-          />
-        </Route>
-        <Route path="/blogs/:userId" element={<Blogs />} />
+        <Route
+          path="/home"
+          element={
+            <PrivateRoutes roles={["admin", "user"]}>
+              <Navbar />
+              <Users />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/users/:userId"
+          element={
+            <PrivateRoutes roles={["admin", "user"]}>
+              <Navbar />
+              <UsersPost />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="users/:userId/:postId"
+          element={
+            <PrivateRoutes roles={["admin", "user"]}>
+              <Navbar />
+              <Comments />
+            </PrivateRoutes>
+          }
+        />
+        <Route
+          path="/update/:userId"
+          element={
+            <PrivateRoutes roles={["admin", "user"]}>
+              <Navbar />
+              <Update />
+            </PrivateRoutes>
+          }
+        />
+
+        <Route
+          path="/blogs/:userId"
+          element={
+            <PrivateRoutes roles={["admin"]}>
+              <Blogs />
+            </PrivateRoutes>
+          }
+        />
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </>
