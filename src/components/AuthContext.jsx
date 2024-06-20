@@ -7,6 +7,9 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(!!localStorage.getItem("role"));
   const [admin, setAdmin] = useState(false);
   const [data, setData] = useState([]);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const userData = [{ email, password }];
   const navigate = useNavigate();
 
   const logout = () => {
@@ -18,6 +21,26 @@ export const AuthProvider = ({ children }) => {
     setAdmin(false);
     navigate("/");
     localStorage.removeItem("role");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const find = data.find(
+      (find) => find.email == email && find.password == password
+    );
+    if (find.role == "user") {
+      setUser(true);
+      alert("user logged in ");
+      localStorage.setItem("role", JSON.stringify(userData));
+      navigate("/home");
+    } else if (find.role == "admin") {
+      setAdmin(true);
+      alert("admin logged in ");
+      navigate("/home");
+      localStorage.setItem("role", JSON.stringify(userData));
+    } else {
+      navigate("/");
+    }
   };
 
   useEffect(() => {
@@ -44,6 +67,12 @@ export const AuthProvider = ({ children }) => {
         adminOut,
         data,
         setData,
+        email,
+        setEmail,
+        password,
+        setPassword,
+        userData,
+        handleSubmit,
       }}
     >
       {children}

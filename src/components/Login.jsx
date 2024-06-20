@@ -1,37 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Counter from "./Counter";
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
-import { counterContext } from "./AuthContext";
-
 const Login = () => {
-  const { setUser, data, setAdmin } = useContext(AuthContext);
-  const [count] = useContext(counterContext);
+  const { email, setEmail, password, setPassword, handleSubmit } =
+    useContext(AuthContext);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const userData = [{ email, password }];
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const find = data.find(
-      (find) => find.email == email && find.password == password
-    );
-    if (find.role == "user") {
-      setUser(true);
-      alert("user logged in ");
-      localStorage.setItem("role", JSON.stringify(userData));
-      navigate("/home");
-    } else if (find.role == "admin" && count == 2) {
-      setAdmin(true);
-      alert("admin logged in ");
-      navigate("/home");
-      localStorage.setItem("role", JSON.stringify(userData));
-    } else {
-      navigate("/");
-    }
-  };
   return (
     <>
       <h1 className="text-center text-3xl mt-[10%] ">Login</h1>
