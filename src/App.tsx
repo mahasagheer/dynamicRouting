@@ -8,6 +8,7 @@ import PrivateRoutes from "./components/PrivateRoutes";
 import Admin from "./components/Admin";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
+import ReactForm from "./components/ReactForm";
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
           }
         />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/form" element={<ReactForm />} />
       </Routes>
     </>
   );

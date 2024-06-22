@@ -5,7 +5,6 @@ import { AuthContext } from "./AuthContext";
 const Login = () => {
   const { email, setEmail, password, setPassword, handleSubmit } =
     useContext(AuthContext);
-
   return (
     <>
       <h1 className="text-center text-3xl mt-[10%] ">Login</h1>

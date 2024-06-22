@@ -5,6 +5,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./components/AuthContext";
 import { CountProvider } from "./components/AuthContext";
+import "./components/i18n.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
