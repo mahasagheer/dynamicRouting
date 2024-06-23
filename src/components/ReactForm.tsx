@@ -16,6 +16,11 @@ const ReactForm = () => {
     register,
     formState: { errors },
   } = useForm({
+    defaultValues: {
+      First_Name: "",
+      Last_Name: "",
+      Message: "Hello I wanted to reach out and ask if you can help with.",
+    },
     resolver: yupResolver(schema),
   });
   const {
