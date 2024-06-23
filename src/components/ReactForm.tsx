@@ -1,11 +1,23 @@
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+const schema = yup
+  .object({
+    First_Name: yup.string().min(10).max(30).required(),
+    Last_Name: yup.string().min(10).max(30).required(),
+    emailAddress: yup.string().email().required(),
+    Message: yup.string().min(10).max(600).required(),
+  })
+  .required();
 const ReactForm = () => {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const {
     t,
     i18n: { language, changeLanguage },
@@ -48,7 +60,7 @@ const ReactForm = () => {
           </button>
         );
       })}
-      <div className="bg-[#91DDCF] text-center pt-10 mx-[20%] my-[5%] ">
+      <div className="bg-[#91DDCF] text-center pt-5 mx-[20%] my-[2%] ">
         <h1 className="text-3xl">{t("contact")}</h1>
         <p className="text-lg mb-2">{t("lineOne")}</p>
         <form
@@ -60,37 +72,31 @@ const ReactForm = () => {
         >
           <div className="flex flex-col justify-center ">
             <input
-              {...register("First_Name", { required: true })}
+              {...register("First_Name")}
               placeholder={t("firstName")}
               className="mx-4  p-4 text-lg  mb-4"
             />
-            {errors.First_Name && (
-              <p className="text-sm text-left ml-4 p-1">
-                First Name is required
-              </p>
-            )}
+            <p>{errors.First_Name?.message}</p>
             <input
-              {...register("Last_Name", { required: true })}
+              {...register("Last_Name")}
               placeholder={t("lastName")}
               className="mx-4  p-4 text-lg mb-4"
             />
+            <p>{errors.Last_Name?.message}</p>
 
             <input
-              {...register("emailAddress", { required: true })}
+              {...register("emailAddress")}
               placeholder={t("emailAddress")}
               className="mx-4  p-4 text-lg  mb-4"
             />
-            {errors.emailAddress && (
-              <p className="text-sm text-left ml-4 p-1">
-                Valid Email Address is required
-              </p>
-            )}
+            <p>{errors.emailAddress?.message}</p>
             <textarea
               {...register("Message")}
               placeholder={t("textArea")}
               rows={4}
               className="mx-4  p-4 text-lg  mb-4"
             />
+            <p>{errors.Message?.message}</p>
           </div>
           <button
             type="submit"
