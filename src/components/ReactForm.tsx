@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 const schema = yup
   .object({
@@ -19,52 +19,14 @@ const ReactForm = () => {
     defaultValues: {
       First_Name: "",
       Last_Name: "",
-      Message: "Hello I wanted to reach out and ask if you can help with.",
+      Message: "",
     },
     resolver: yupResolver(schema),
   });
-  const {
-    t,
-    i18n: { language, changeLanguage },
-  } = useTranslation();
-  const languages = [
-    {
-      code: "en",
-      lang: "English",
-    },
-    {
-      code: "ko",
-      lang: "korean",
-    },
-    {
-      code: "hi",
-      lang: "hindi",
-    },
+  const { t } = useTranslation();
 
-    {
-      code: "ja",
-      lang: "Japanes",
-    },
-  ];
-  console.log(language);
-  const handleChangeLanguage = (lang) => {
-    changeLanguage(lang);
-    console.log(language);
-  };
   return (
     <>
-      {languages.map((lng) => {
-        return (
-          <button
-            value={lng.code}
-            key={lng.code}
-            onClick={() => handleChangeLanguage(lng.code)}
-            className="text-lg p-2 bg-[#F19ED2] w-[20%] rounded-2xl mt-4 mx-9"
-          >
-            {lng.lang}
-          </button>
-        );
-      })}
       <div className="bg-[#91DDCF] text-center pt-5 mx-[20%] my-[2%] ">
         <h1 className="text-3xl">{t("contact")}</h1>
         <p className="text-lg mb-2">{t("lineOne")}</p>

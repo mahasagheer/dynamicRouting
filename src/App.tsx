@@ -9,12 +9,21 @@ import Admin from "./components/Admin";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import ReactForm from "./components/ReactForm";
+import Language from "./components/Language";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Language />
+              <Login />
+            </>
+          }
+        />
         <Route
           path="/home"
           element={
