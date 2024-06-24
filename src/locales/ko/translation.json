@@ -1,0 +1,13 @@
+{
+  "contact": "문의하기",
+  "lineOne": " 이 대화를 시작해 보겠습니다. 귀하에 대해 조금 알려주시면 최대한 빨리 연락드리겠습니다.",
+  "button": " 제출하다",
+  "firstName": "이름",
+  "lastName": "성",
+  "emailAddress": "xyz@gmail.com",
+  "textArea": "안녕하세요. 도움을 주실 수 있는지 문의드리고 싶습니다.",
+  "login": "로그인",
+  "email": "이메일 주소",
+  "password": "비밀번호",
+  "count": "세다"
+}

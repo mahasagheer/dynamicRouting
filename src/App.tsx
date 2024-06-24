@@ -70,7 +70,15 @@ function App() {
           }
         />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/form" element={<ReactForm />} />
+        <Route
+          path="/form"
+          element={
+            <>
+              <Language />
+              <ReactForm />
+            </>
+          }
+        />
       </Routes>
     </>
   );

@@ -5,14 +5,16 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./components/AuthContext";
 import { CountProvider } from "./components/AuthContext";
-import "./components/i18n.js";
+import "./i18n.js";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <CountProvider>
-          <App />
+          <React.Suspense fallback="loading...">
+            <App />
+          </React.Suspense>
         </CountProvider>
       </AuthProvider>
     </BrowserRouter>
