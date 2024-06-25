@@ -5,15 +5,19 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./components/AuthContext";
 import { CountProvider } from "./components/AuthContext";
+import { QueryClientProvider, QueryClient } from "react-query";
 import "./i18n.js";
 
+const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <CountProvider>
           <React.Suspense fallback="loading...">
-            <App />
+            <QueryClientProvider client={queryClient}>
+              <App />
+            </QueryClientProvider>
           </React.Suspense>
         </CountProvider>
       </AuthProvider>

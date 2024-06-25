@@ -2,7 +2,11 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import UseFetch from "./UseFetch";
+import { useQuery } from "react-query";
+// import UseFetch from "./UseFetch";
+// const { data, pending } = UseFetch<Post[]>(
+//   "https://jsonplaceholder.typicode.com/posts"
+// );
 
 interface Post {
   userId: number;
@@ -17,9 +21,6 @@ interface Params {
 
 const UsersPost: FC = () => {
   const { userId } = useParams<Params>();
-  const { data, pending } = UseFetch<Post[]>(
-    "https://jsonplaceholder.typicode.com/posts"
-  );
   const navigate = useNavigate();
 
   const handleDelete = (id: number) => {
@@ -36,10 +37,18 @@ const UsersPost: FC = () => {
       });
     console.log("deleted", id);
   };
-
+  const { data, status } = useQuery("posts", async () => {
+    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+    return res.json();
+  });
   return (
     <>
-      {pending && <div className="text-center text-xl">Loading...</div>}
+      {status === "error" && (
+        <div className="text-center text-xl">Error in Fetching Data</div>
+      )}
+      {status === "loading" && (
+        <div className="text-center text-xl">Fetching Data...</div>
+      )}
       <h1 className="text-center text-3xl my-10">View Posts</h1>
       {data &&
         data
