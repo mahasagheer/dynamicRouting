@@ -18,7 +18,6 @@ const Update: FC = () => {
     return res.json();
   });
   const filter = data.find((data) => data.id == userId);
-  // console.log(filter.title);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {

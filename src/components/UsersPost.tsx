@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
+import { CSpinner } from "@coreui/react";
 // import UseFetch from "./UseFetch";
 // const { data, pending } = UseFetch<Post[]>(
 //   "https://jsonplaceholder.typicode.com/posts"
@@ -20,6 +22,7 @@ interface Params {
 }
 
 const UsersPost: FC = () => {
+  const mystate = useSelector((state) => state.Spinner);
   const { userId } = useParams<Params>();
   const navigate = useNavigate();
 
@@ -43,13 +46,15 @@ const UsersPost: FC = () => {
   });
   return (
     <>
+      <h1 className="text-center text-3xl my-10">View Posts</h1>
       {status === "error" && (
         <div className="text-center text-xl">Error in Fetching Data</div>
       )}
-      {status === "loading" && (
-        <div className="text-center text-xl">Fetching Data...</div>
-      )}
-      <h1 className="text-center text-3xl my-10">View Posts</h1>
+      {status === "loading" && mystate ? (
+        <div className="text-center text-xl">
+          <CSpinner color="warning" variant="grow" />
+        </div>
+      ) : null}
       {data &&
         data
           .filter((view) => view.userId.toString() === userId)

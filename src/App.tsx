@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import ReactForm from "./components/ReactForm";
 import Language from "./components/Language";
+import Spinning from "./components/Spinning";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             </>
           }
         />
+        <Route path="/spinning" element={<Spinning />} />
         <Route
           path="/home"
           element={
@@ -65,6 +67,7 @@ function App() {
           path="/blogs/:userId"
           element={
             <PrivateRoutes roles={"admin"}>
+              <Navbar />
               <Blogs />
             </PrivateRoutes>
           }

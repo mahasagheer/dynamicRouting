@@ -8,6 +8,7 @@ const Login = () => {
   const { email, setEmail, password, setPassword, handleSubmit } =
     useContext(AuthContext);
   const { t } = useTranslation();
+
   return (
     <>
       <h1 className="text-center text-3xl mt-[10%] ">{t("login")}</h1>

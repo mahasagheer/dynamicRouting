@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { FC } from "react";
 import { useQuery } from "react-query";
-// import UseFetch from "./UseFetch";
-// const { data } = UseFetch("https://jsonplaceholder.typicode.com/users");
+import { useSelector } from "react-redux";
+import { CSpinner } from "@coreui/react";
 
 const Users: FC = () => {
+  const mystate = useSelector((state) => state.Spinner);
   const { data, status } = useQuery("users", async () => {
     const res = await fetch("https://jsonplaceholder.typicode.com/users");
     return res.json();
@@ -15,9 +16,11 @@ const Users: FC = () => {
       {status === "error" && (
         <p className="text-center text-xl">Error fetching data</p>
       )}
-      {status === "loading" && (
-        <p className="text-center text-xl">Fetching data...</p>
-      )}{" "}
+      {status === "loading" && mystate ? (
+        <div className="text-center text-xl">
+          <CSpinner color="warning" variant="grow" />
+        </div>
+      ) : null}
       {status === "success" && (
         <div>
           {data.map((data, i) => (
@@ -74,3 +77,6 @@ const Users: FC = () => {
   );
 };
 export default Users;
+
+// import UseFetch from "./UseFetch";
+// const { data } = UseFetch("https://jsonplaceholder.typicode.com/users");

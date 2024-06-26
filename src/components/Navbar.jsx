@@ -1,8 +1,14 @@
 import React from "react";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { Logout, AdminOut } from "../action/index";
+
 const Navbar = () => {
-  const { user, admin, logout, adminOut } = useContext(AuthContext);
+  const user = useSelector((state) => state.Auth.user);
+  const admin = useSelector((state) => state.Auth.admin);
+
+  const { logout, adminOut } = useContext(AuthContext);
 
   return (
     <>
@@ -16,23 +22,15 @@ const Navbar = () => {
             >
               Log Out
             </button>
-          ) : (
-            <button className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1">
-              Log In
-            </button>
-          )}
+          ) : null}
           {admin ? (
             <button
               className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1"
               onClick={adminOut}
             >
-              Admin Out
+              Admin out
             </button>
-          ) : (
-            <button className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1">
-              Admin In
-            </button>
-          )}
+          ) : null}
         </div>
       </nav>
     </>
