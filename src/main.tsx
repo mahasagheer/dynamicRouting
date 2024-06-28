@@ -8,18 +8,22 @@ import "./i18n.js";
 import store from "./store";
 import { AuthProvider } from "./components/AuthContext";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import persistStore from "redux-persist/es/persistStore.js";
 store.subscribe(() => console.log(store.getState()));
-
+const persistor = persistStore(store);
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
-        </QueryClientProvider>
+        <PersistGate persistor={persistor}>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </QueryClientProvider>
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

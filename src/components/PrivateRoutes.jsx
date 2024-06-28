@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "./AuthContext";
+import { useSelector } from "react-redux";
 
 const PrivateRoutes = ({ children, roles }) => {
-  const { user, admin } = useContext(AuthContext);
+  const user = useSelector((state) => state.auth.user);
+  const admin = useSelector((state) => state.auth.admin);
   if (admin == true && roles.includes("admin")) {
     return children;
   }

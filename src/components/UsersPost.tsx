@@ -2,13 +2,9 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserPost } from "../features/auth/UserPostSlice";
 import { CSpinner } from "@coreui/react";
-// import UseFetch from "./UseFetch";
-// const { data, pending } = UseFetch<Post[]>(
-//   "https://jsonplaceholder.typicode.com/posts"
-// );
 
 interface Post {
   userId: number;
@@ -22,7 +18,8 @@ interface Params {
 }
 
 const UsersPost: FC = () => {
-  const mystate = useSelector((state) => state.Spinner);
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   const { userId } = useParams<Params>();
   const navigate = useNavigate();
 
@@ -40,24 +37,28 @@ const UsersPost: FC = () => {
       });
     console.log("deleted", id);
   };
-  const { data, status } = useQuery("posts", async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-    return res.json();
-  });
   return (
     <>
-      <h1 className="text-center text-3xl my-10">View Posts</h1>
-      {status === "error" && (
-        <div className="text-center text-xl">Error in Fetching Data</div>
-      )}
-      {status === "loading" && mystate ? (
+      <h1
+        className="text-center text-3xl my-10"
+        onClick={() => dispatch(fetchUserPost())}
+      >
+        View Posts
+      </h1>
+
+      {state.user.isLoading && (
         <div className="text-center text-xl">
           <CSpinner color="warning" variant="grow" />
         </div>
-      ) : null}
-      {data &&
-        data
-          .filter((view) => view.userId.toString() === userId)
+      )}
+      {state.user.isError && (
+        <div className="text-center text-xl">
+          Check Your Internet Connection
+        </div>
+      )}
+      {state.post.data &&
+        state.post.data
+          .filter((view) => view.userId == userId)
           .map((show, i) => (
             <div
               key={i}

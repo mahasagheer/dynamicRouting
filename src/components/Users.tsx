@@ -1,29 +1,34 @@
 import { Link } from "react-router-dom";
 import { FC } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUser } from "../features/auth/UserSlice";
 import { CSpinner } from "@coreui/react";
 
 const Users: FC = () => {
-  const mystate = useSelector((state) => state.Spinner);
-  const { data, status } = useQuery("users", async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/users");
-    return res.json();
-  });
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   return (
     <>
-      <h1 className="text-center text-3xl my-10">Users</h1>
-      {status === "error" && (
-        <p className="text-center text-xl">Error fetching data</p>
-      )}
-      {status === "loading" && mystate ? (
+      <h1
+        className="text-center text-3xl my-10"
+        onClick={() => dispatch(fetchUser())}
+      >
+        Users
+      </h1>
+      {state.user.isLoading && (
         <div className="text-center text-xl">
           <CSpinner color="warning" variant="grow" />
         </div>
-      ) : null}
-      {status === "success" && (
-        <div>
-          {data.map((data, i) => (
+      )}
+      {state.user.isError && (
+        <div className="text-center text-xl">
+          Check Your Internet Connection
+        </div>
+      )}
+
+      <div>
+        {state.user.data &&
+          state.user.data.map((data, i) => (
             <div
               key={i}
               className="bg-[#A0DEFF] flex justify-between my-4 mx-[10%] items-center	p-6 rounded-xl"
@@ -71,8 +76,8 @@ const Users: FC = () => {
               </div>
             </div>
           ))}
-        </div>
-      )}
+      </div>
+      {/* )} */}
     </>
   );
 };

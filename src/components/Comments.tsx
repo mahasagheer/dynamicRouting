@@ -1,30 +1,35 @@
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FC } from "react";
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchComment } from "../features/auth/CommentSlice";
 import { CSpinner } from "@coreui/react";
 
 const Comments: FC = () => {
-  const mystate = useSelector((state) => state.Spinner);
+  const state = useSelector((state) => state);
   const { postId } = useParams();
-  const { data, status } = useQuery("users", async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/comments");
-    return res.json();
-  });
+  const dispatch = useDispatch();
+
   return (
     <>
-      <h1 className="text-center text-3xl my-10">View Comments</h1>
-      {status === "error" && (
-        <p className="text-center text-xl">Error fetching data</p>
-      )}
-      {status === "loading" && mystate ? (
+      <h1
+        className="text-center text-3xl my-10"
+        onClick={() => dispatch(fetchComment())}
+      >
+        View Comments
+      </h1>
+      {state.user.isLoading && (
         <div className="text-center text-xl">
           <CSpinner color="warning" variant="grow" />
         </div>
-      ) : null}
-      {status === "success" &&
-        data
+      )}
+      {state.user.isError && (
+        <div className="text-center text-xl">
+          Check Your Internet Connection
+        </div>
+      )}
+      {state.comment.data &&
+        state.comment.data
           .filter((filterOut) => filterOut.postId == postId)
           .map((show, i) => (
             <Link key={i}>

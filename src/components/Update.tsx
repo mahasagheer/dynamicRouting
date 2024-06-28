@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { FC } from "react";
 // import UseFetch from "./UseFetch";
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { useQuery } from "react-query";
 import * as Yup from "yup";
 
 interface RouteParams {
@@ -10,20 +10,15 @@ interface RouteParams {
 }
 const Update: FC = () => {
   const { userId } = useParams<RouteParams>();
-  // const { data, pending } = UseFetch<Post[]>(
-  //   "https://jsonplaceholder.typicode.com/posts"
-  // );
-  const { data } = useQuery("posts", async () => {
-    const res = await fetch("https://jsonplaceholder.typicode.com/posts");
-    return res.json();
-  });
-  const filter = data.find((data) => data.id == userId);
+
+  const state = useSelector((state) => state);
+  const filter = state.post.data.find((data) => data.id == userId);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: {
         title: filter.title,
         body: filter.body,
-        userId: filter.userId,
+        userId: filter.id,
         id: userId,
       },
       validationSchema: Yup.object({

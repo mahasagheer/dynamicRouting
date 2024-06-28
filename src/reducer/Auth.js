@@ -7,12 +7,13 @@ const Auth = (state = initialState, action) => {
     case "Logout":
       return {
         ...state,
-        user: false,
+        user: !state.user,
       };
+
     case "AdminOut":
       return {
         ...state,
-        admin: true,
+        admin: !state.admin,
       };
     default:
       return state;

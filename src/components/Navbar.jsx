@@ -1,14 +1,14 @@
 import React from "react";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
-import { useDispatch, useSelector } from "react-redux";
-import { Logout, AdminOut } from "../action/index";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const user = useSelector((state) => state.Auth.user);
-  const admin = useSelector((state) => state.Auth.admin);
+  const user = useSelector((state) => state.auth.userLoggedIn.user);
+  const admin = useSelector((state) => state.auth.admin);
 
-  const { logout, adminOut } = useContext(AuthContext);
+  console.log(user);
+  // const { logoutUser, AdminOut, admin, user } = useContext(AuthContext);
 
   return (
     <>
@@ -16,18 +16,12 @@ const Navbar = () => {
         <h1 className="text-3xl">Users</h1>
         <div className="w-[12%] flex justify-between">
           {user ? (
-            <button
-              className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1"
-              onClick={logout}
-            >
+            <button className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1">
               Log Out
             </button>
           ) : null}
           {admin ? (
-            <button
-              className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1"
-              onClick={adminOut}
-            >
+            <button className="bg-[#FDDE55] w-[100%] p-2 rounded-full my-1">
               Admin out
             </button>
           ) : null}

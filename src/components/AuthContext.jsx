@@ -2,13 +2,14 @@ import { useState, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { Logout, AdminOut } from "../action/index";
+import { logout, adminIn, adminOut, login } from "../features/auth/AuthSlice";
 
 export const AuthContext = createContext();
 export const counterContext = createContext(null);
 export const AuthProvider = ({ children }) => {
-  const user = useSelector((state) => state.Auth.user);
-  const admin = useSelector((state) => state.Auth.admin);
+  const user = useSelector((state) => state.auth.user);
+  const admin = useSelector((state) => state.auth.admin);
+
   const dispatch = useDispatch();
   const [dataSet, setDataSet] = useState([]);
   const [email, setEmail] = useState("");
@@ -16,18 +17,17 @@ export const AuthProvider = ({ children }) => {
   const userData = [{ email, password }];
   const navigate = useNavigate();
 
-  const logout = () => {
-    dispatch(Logout());
+  const logoutUser = () => {
+    dispatch(logout());
     navigate("/");
-    localStorage.removeItem("role");
-  };
-  const adminOut = () => {
-    dispatch(AdminOut());
-    navigate("/");
-    localStorage.removeItem("role");
   };
 
-  const { data, status } = useQuery("users", async () => {
+  const AdminOut = () => {
+    dispatch(adminOut());
+    navigate("/");
+  };
+
+  const { data } = useQuery("users", async () => {
     const res = await fetch("http://localhost:3001/roleBasedAuth");
     return res.json();
   });
@@ -38,13 +38,18 @@ export const AuthProvider = ({ children }) => {
     );
     console.log(find);
     if (find.role == "user") {
+      dispatch(adminOut());
+      console.log(user);
       alert("user logged in ");
-      localStorage.setItem("role", JSON.stringify(userData));
       navigate("/home");
+      console.log(user);
+      console.log(admin);
     } else if (find.role == "admin") {
+      dispatch(logout());
       alert("admin logged in ");
       navigate("/home");
-      localStorage.setItem("role", JSON.stringify(userData));
+      console.log(user);
+      console.log(admin);
     } else {
       navigate("/");
     }
@@ -53,10 +58,8 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        user,
-        admin,
-        logout,
-        adminOut,
+        logoutUser,
+        AdminOut,
         dataSet,
         setDataSet,
         email,
@@ -71,6 +74,7 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 // export const CountProvider = ({ children }) => {
 //   const [count, setCount] = useState(0);
 //   const increment = () => {

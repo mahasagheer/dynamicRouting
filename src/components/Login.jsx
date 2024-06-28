@@ -1,14 +1,57 @@
 import React from "react";
 import Counter from "./Counter";
 import { useTranslation } from "react-i18next";
-import { useContext } from "react";
-import { AuthContext } from "./AuthContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, adminIn, adminOut, login } from "../features/auth/AuthSlice";
+import { fetchFakeApi } from "../features/auth/FakeApiSlice";
 
 const Login = () => {
-  const { email, setEmail, password, setPassword, handleSubmit } =
-    useContext(AuthContext);
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
   const { t } = useTranslation();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const navigate = useNavigate();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(fetchFakeApi());
+    if (state.fakeapi.data) {
+      const find = state.fakeapi.data.find(
+        (find) => find.email == email && find.password == password
+      );
+      console.log(find);
+      navigate("/home");
+
+      if (find.role == "user") {
+        alert("user logged in ");
+        navigate("/home");
+        dispatch(
+          login({
+            email: email,
+            password: password,
+            user: true,
+          })
+        );
+        console.log(state.auth.user);
+      }
+      // } else if (find.role == "admin") {
+      //   alert("admin logged in ");
+      //   navigate("/home");
+      //   dispatch(
+      //     adminIn({
+      //       email: email,
+      //       password: password,
+      //       admin: true,
+      //     })
+      //   );
+      // } else {
+      //   navigate("/");
+      // }
+    }
+  };
   return (
     <>
       <h1 className="text-center text-3xl mt-[10%] ">{t("login")}</h1>

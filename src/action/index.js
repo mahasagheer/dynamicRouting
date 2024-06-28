@@ -18,3 +18,13 @@ export const AdminOut = () => {
     type: "AdminOut",
   };
 };
+export const Login = () => {
+  return {
+    type: "Login",
+  };
+};
+export const AdminIn = () => {
+  return {
+    type: "AdminIn",
+  };
+};
